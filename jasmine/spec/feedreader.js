@@ -14,7 +14,7 @@ $(function() {
     * feeds definitions, the allFeeds variable in our application.
     */
     describe('RSS Feeds', function() {
-        
+
         /* This is our first test - it tests to make sure that the
          * allFeeds variable has been defined and that it is not
          * empty. Experiment with this before you get started on
@@ -22,7 +22,7 @@ $(function() {
          * allFeeds in app.js to be an empty array and refresh the
          * page?
          */
-        it('are defined', function() {
+        it('Feeds are defined', function() {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
@@ -31,8 +31,11 @@ $(function() {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
-        it('Feeds URLS defined', function() {
-
+        it('Feeds urls are defined', function() {
+            for (let curFeed of allFeeds) {
+                expect(curFeed.url).toBeDefined();
+                expect(curFeed.url.length).not.toBe(0);
+            }
         });
 
         /* TODO: Write a test that loops through each feed
@@ -40,21 +43,25 @@ $(function() {
          * and that the name is not empty.
          */
 
-        it('Feeds Name defined', function() {
-
+        it('Feeds names are defined', function() {
+            for (let curFeed of allFeeds) {
+                expect(curFeed.name).toBeDefined();
+                expect(curFeed.name.length).not.toBe(0);
+            }
         });
     });
 
 
     /* TODO: Write a new test suite named "The menu" */
-    describe('The', function() {
+    describe('The menu', function() {
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
-        it('Menu hidden default', function() {
-
+        it('Menu hidden by default', function() {
+            let feedBody = document.querySelector('body');
+            expect(feedBody.classList.contains('menu-hidden')).toBe(true);
         });
 
          /* TODO: Write a test that ensures the menu changes
@@ -62,8 +69,11 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
-        it('Menu click event', function() {
-
+        it('Menu click event toggles', function() {
+            let feedBody = document.querySelector('body');
+            let menuIcon = document.querySelector('.menu-icon-link');
+            menuIcon.click();
+            expect(feedBody.classList.contains('menu-hidden')).toBe(false);
         });
     });
 
