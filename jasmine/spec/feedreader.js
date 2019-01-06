@@ -51,7 +51,6 @@ $(function() {
         });
     });
 
-
     /* TODO: Write a new test suite named "The menu" */
     describe('The menu', function() {
         /* TODO: Write a test that ensures the menu element is
@@ -77,7 +76,6 @@ $(function() {
         });
     });
 
-
     /* TODO: Write a new test suite named "Initial Entries" */
     describe('Initial Entries', function() {
 
@@ -87,11 +85,15 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-        it('Load Feeded completes', function() {
+        const initialFeedList = document.querySelector('.feed');
+        beforeEach(function(done){
+            loadFeed(0, done);
+        });
 
+        it('Completes load feed loading', function(){
+            expect(initialFeedList.children.length).not.toBe(0);
         });
     });
-
 
     /* TODO: Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', function() {
@@ -101,8 +103,23 @@ $(function() {
          * Remember, loadFeed() is asynchronous.
          */
 
-        it('New feed loads', function() {
+        const newFeed = document.querySelector('.feed');
+        const feedArray = [];
 
+        beforeEach(function(done){
+            loadFeed(0);
+               Array.from(newFeed.children).forEach(function(item){
+                feedArray.push(item.innerText)
+            });
+            loadFeed(1, done);
+        });
+
+        it('Feed load changes', function() {
+
+            Array.from(newFeed.children).forEach(function(item, i) {
+                console.log(item.innerText, feedArray[i], item.innerText === feedArray[i]);
+                expect(item.innerText === feedArray[i]).toBe(false);
+            });
         });
     });
 
