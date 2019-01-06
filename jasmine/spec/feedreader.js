@@ -32,9 +32,9 @@ $(function() {
          * and that the URL is not empty.
          */
         it('Feeds urls are defined', function() {
-            for (let curFeed of allFeeds) {
-                expect(curFeed.url).toBeDefined();
-                expect(curFeed.url.length).not.toBe(0);
+            for (let feedURLS of allFeeds) {
+                expect(feedURLS.url).toBeDefined();
+                expect(feedURLS.url.length).not.toBe(0);
             }
         });
 
@@ -44,9 +44,9 @@ $(function() {
          */
 
         it('Feeds names are defined', function() {
-            for (let curFeed of allFeeds) {
-                expect(curFeed.name).toBeDefined();
-                expect(curFeed.name.length).not.toBe(0);
+            for (let feedNames of allFeeds) {
+                expect(feedNames.name).toBeDefined();
+                expect(feedNames.name.length).not.toBe(0);
             }
         });
     });
@@ -60,6 +60,7 @@ $(function() {
          */
         it('Menu hidden by default', function() {
             let feedBody = document.querySelector('body');
+            //Checks for menu-hidden class
             expect(feedBody.classList.contains('menu-hidden')).toBe(true);
         });
 
@@ -70,8 +71,9 @@ $(function() {
           */
         it('Menu click event toggles', function() {
             let feedBody = document.querySelector('body');
-            let menuIcon = document.querySelector('.menu-icon-link');
-            menuIcon.click();
+            let menuIconButton = document.querySelector('.menu-icon-link');
+            menuIconButton.click();
+            //After click checking if menu-hidden class applied
             expect(feedBody.classList.contains('menu-hidden')).toBe(false);
         });
     });
@@ -85,8 +87,12 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
+
+         //Need feed div ul list - Looks for feed class that has been applied
         const initialFeedList = document.querySelector('.feed');
+
         beforeEach(function(done){
+            //Loadss feed rss items and waits for completion
             loadFeed(0, done);
         });
 
@@ -115,7 +121,6 @@ $(function() {
         });
 
         it('Feed load changes', function() {
-
             Array.from(newFeed.children).forEach(function(item, i) {
                 console.log(item.innerText, feedArray[i], item.innerText === feedArray[i]);
                 expect(item.innerText === feedArray[i]).toBe(false);
