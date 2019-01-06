@@ -69,7 +69,7 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
-        it('Menu click event toggles', function() {
+        it('Menu click event toggles visibility to hidden', function() {
             let feedBody = document.querySelector('body');
             let menuIconButton = document.querySelector('.menu-icon-link');
             menuIconButton.click();
@@ -92,12 +92,12 @@ $(function() {
         const initialFeedList = document.querySelector('.feed');
 
         beforeEach(function(done){
-            //Loadss feed rss items and waits for completion
+            //Loads feed rss items and waits for completion
             loadFeed(0, done);
         });
 
         it('Completes load feed loading', function(){
-            expect(initialFeedList.children.length).not.toBe(0);
+            expect(initialFeedList.children.length).toBeGreaterThan(0);
         });
     });
 
@@ -109,22 +109,25 @@ $(function() {
          * Remember, loadFeed() is asynchronous.
          */
 
-        const newFeed = document.querySelector('.feed');
-        const feedArray = [];
+        const newFeed = document.querySelector('.feed');       
+        let feedLoad1, feedLoad2;
 
-        beforeEach(function(done){
-            loadFeed(0);
-               Array.from(newFeed.children).forEach(function(item){
-                feedArray.push(item.innerText)
-            });
-            loadFeed(1, done);
+        beforeEach(function(done) {
+            loadFeed(0, function() {
+                feedLoad1 = newFeed.innerHTML;
+                //console.log('F1', feedLoad1);                
+                done();
+            });           
+
+            loadFeed(1, function(){
+                feedLoad2 = newFeed.innerHTML;
+                //console.log('F2', feedLoad2);
+                done();
+            });            
         });
 
         it('Feed load changes', function() {
-            Array.from(newFeed.children).forEach(function(item, i) {
-                console.log(item.innerText, feedArray[i], item.innerText === feedArray[i]);
-                expect(item.innerText === feedArray[i]).toBe(false);
-            });
+            expect(feedLoad1 === feedLoad2).toBe(false);
         });
     });
 
