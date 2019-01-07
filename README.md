@@ -4,9 +4,8 @@ This is a project to test a feedReader in Jasmine.js by selecting DOM elements.
 
 The project code base is from Udacity
 
-## Steps to run locally
+## Simple Steps to run locally
 
-## Simple Method
 A simple way to go is to clone or download this git repository to your local machine. Locate to the repository folder and open index.html, you should be able to see the feeds load.
 
 ## Run the app on a server
