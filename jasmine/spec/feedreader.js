@@ -32,6 +32,7 @@ $(function() {
          * and that the URL is not empty.
          */
         it('Feeds urls are defined', function() {
+            //Checks all feeds have a url based on length
             for (let feedURLS of allFeeds) {
                 expect(feedURLS.url).toBeDefined();
                 expect(feedURLS.url.length).not.toBe(0);
@@ -44,6 +45,7 @@ $(function() {
          */
 
         it('Feeds names are defined', function() {
+            //Checks all feeds have a name based on length
             for (let feedNames of allFeeds) {
                 expect(feedNames.name).toBeDefined();
                 expect(feedNames.name.length).not.toBe(0);
@@ -60,7 +62,7 @@ $(function() {
          */
         it('Menu hidden by default', function() {
             let feedBody = document.querySelector('body');
-            //Checks for menu-hidden class
+            //Checks for menu-hidden class applied to body by default
             expect(feedBody.classList.contains('menu-hidden')).toBe(true);
         });
 
@@ -69,12 +71,17 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
-        it('Menu click event toggles visibility to hidden', function() {
+        it('Menu click event toggles visibility', function() {
+            //Gets body
             let feedBody = document.querySelector('body');
-            let menuIconButton = document.querySelector('.menu-icon-link');
+            //Gets menu icon by class
+            let menuIconButton = document.querySelector('a.menu-icon-link');
+            //First click checks visible
             menuIconButton.click();
-            //After click checking if menu-hidden class applied
             expect(feedBody.classList.contains('menu-hidden')).toBe(false);
+            //Second click checks hidden
+            menuIconButton.click();
+            expect(feedBody.classList.contains('menu-hidden')).toBe(true);
         });
     });
 
@@ -88,16 +95,14 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
 
-         //Need feed div ul list - Looks for feed class that has been applied
-        const initialFeedList = document.querySelector('.feed');
-
-        beforeEach(function(done){
-            //Loads feed rss items and waits for completion
+        beforeEach(function(done) {
             loadFeed(0, done);
         });
 
-        it('Completes load feed loading', function(){
-            expect(initialFeedList.children.length).toBeGreaterThan(0);
+        it('Completes load feed. Has at least single entry', function() {
+            //Gets feedlist and checks more than 1 feed loaded
+            const feedList = document.querySelector('.feed');
+            expect(feedList.children.length).toBeGreaterThan(0);
         });
     });
 
@@ -109,24 +114,25 @@ $(function() {
          * Remember, loadFeed() is asynchronous.
          */
 
-        const newFeed = document.querySelector('.feed');       
+        const newFeed = document.querySelector('.feed');
         let feedLoad1, feedLoad2;
 
         beforeEach(function(done) {
             loadFeed(0, function() {
+                //Gets first feed list
                 feedLoad1 = newFeed.innerHTML;
-                //console.log('F1', feedLoad1);                
                 done();
-            });           
+            });
 
             loadFeed(1, function(){
+                //Gets second feed change list
                 feedLoad2 = newFeed.innerHTML;
-                //console.log('F2', feedLoad2);
                 done();
-            });            
+            });
         });
 
         it('Feed load changes', function() {
+            //Checks lists different to confirm change
             expect(feedLoad1 === feedLoad2).toBe(false);
         });
     });
